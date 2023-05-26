@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('BackupDaily') {
+            steps {
+                echo 'StartBackupDailyTask'
+                sh "touch new.txt"
+                sh "scp /mnt/c/Users/444380760/Desktop/ascli_1.png ."
+                sh "sleep 2s"
+            }
+        }
+        stage('UploadToICOS') {
+            parallel{
+                stage('Upload_byCLI') {
+                    steps {
+                        echo 'UploadFileToICOS_byCLI'
+                        sh "sleep 2s"
+                    }
+                }
+                stage('Upload_bySDK') {
+                    steps {
+                        echo 'UploadFileToICOS_bySDK'
+                        sh "sleep 2s"
+                    }
+                }
+            }
+        }
+        stage('SetupICOSBucket') {
+            steps{
+                echo 'SetupICOSBucket'
+                sh "sleep 2s"
+            }
+        }
+        stage('SendNotification') {
+            steps{
+                echo 'SendNotification'
+                sh "sleep 2s"
+            }
+        }
+    }
+}
